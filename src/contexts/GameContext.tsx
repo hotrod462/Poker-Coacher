@@ -87,7 +87,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
                 clearTimeout(botTurnTimeoutRef.current);
             }
         };
-    }, [gameState.activePlayerIndex, gameState.isComplete, isUsersTurn]);
+    }, [gameState.activePlayerIndex, gameState.isComplete, isUsersTurn, gameState.street]);
 
     const startGame = useCallback(() => {
         dispatch({ type: 'START_GAME' });
