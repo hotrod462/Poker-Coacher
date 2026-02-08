@@ -112,21 +112,29 @@ export function PokerTable() {
 
 
                     {/* Players positioned absolutely around the table */}
-                    {players.map((player, index) => (
-                        <div
-                            key={player.id}
-                            className="absolute z-20"
-                            style={getPositionStyle(index)}
-                        >
-                            <PlayerSeat
-                                player={player}
-                                isActive={activePlayerIndex === player.seatIndex}
-                                isDealer={dealerIndex === player.seatIndex}
-                                showCards={isComplete}
-                                seatPosition={getSeatPosition(index) as any}
-                            />
-                        </div>
-                    ))}
+                    {players.map((player, index) => {
+                        // Sequential dealing order: Small Blind (dealer + 1) gets first card
+                        const dealingOrder = (index - (dealerIndex + 1) % players.length + players.length) % players.length;
+
+                        return (
+                            <div
+                                key={player.id}
+                                className="absolute z-20"
+                                style={getPositionStyle(index)}
+                            >
+                                <PlayerSeat
+                                    player={player}
+                                    isActive={activePlayerIndex === player.seatIndex}
+                                    isDealer={dealerIndex === player.seatIndex}
+                                    showCards={isComplete}
+                                    seatPosition={getSeatPosition(index) as any}
+                                    handNumber={handNumber}
+                                    dealingOrder={dealingOrder}
+                                    totalPlayers={players.length}
+                                />
+                            </div>
+                        );
+                    })}
                 </div>
             </div>
 

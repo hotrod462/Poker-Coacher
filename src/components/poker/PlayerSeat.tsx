@@ -14,9 +14,21 @@ interface PlayerSeatProps {
     isDealer: boolean;
     showCards?: boolean;
     seatPosition?: 'bottom' | 'top' | 'left' | 'right' | 'bottom-left' | 'bottom-right' | 'top-left' | 'top-right';
+    handNumber?: number;
+    dealingOrder?: number;
+    totalPlayers?: number;
 }
 
-export function PlayerSeat({ player, isActive, isDealer, showCards = false, seatPosition = 'bottom' }: PlayerSeatProps) {
+export function PlayerSeat({
+    player,
+    isActive,
+    isDealer,
+    showCards = false,
+    seatPosition = 'bottom',
+    handNumber = 0,
+    dealingOrder = 0,
+    totalPlayers = 5
+}: PlayerSeatProps) {
     const { name, avatar, stack, currentBet, folded, allIn, isUser, holeCards } = player;
 
     // Determine card position based on seat position
@@ -43,19 +55,24 @@ export function PlayerSeat({ player, isActive, isDealer, showCards = false, seat
                 flex flex-col items-center gap-2 transition-all duration-300
                 ${cardsOnTop ? 'flex-col-reverse' : 'flex-col'}
             `}>
-                {/* Cards */}
                 <div className={`
                     relative h-[80px] z-10 transition-all duration-300
                     ${folded ? 'opacity-40 grayscale' : ''}
                     ${isActive ? 'scale-110' : ''}
-                `}>
+                `}
+                    style={{
+                        '--deal-from-y': seatPosition.includes('bottom') ? '-200px' : seatPosition.includes('top') ? '200px' : '0px',
+                        '--deal-from-x': seatPosition.includes('left') ? '200px' : seatPosition.includes('right') ? '-200px' : '0px',
+                    } as React.CSSProperties}>
                     {holeCards.length > 0 ? (
-                        <div className={`${folded ? 'opacity-0' : 'opacity-100'}`}>
+                        <div className={`${folded ? 'opacity-0' : 'opacity-100'}`} key={`hand-${handNumber}`}>
                             <CardHand
                                 cards={holeCards}
                                 faceDown={!showCards && !isUser}
                                 size="lg"
                                 overlap={true}
+                                dealingOrder={dealingOrder}
+                                totalPlayers={totalPlayers}
                             />
                         </div>
                     ) : (

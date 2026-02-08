@@ -11,6 +11,7 @@ interface PlayingCardProps {
     faceDown?: boolean;
     size?: 'sm' | 'md' | 'lg' | 'xl';
     className?: string;
+    animationDelay?: string;
 }
 
 const SUIT_SYMBOLS: Record<string, { symbol: string; color: string }> = {
@@ -33,12 +34,15 @@ const SIZE_CLASSES = {
     xl: { card: 'w-24 h-36', rank: 'text-2xl', suit: 'text-4xl' },
 };
 
-export function PlayingCard({ card, faceDown = false, size = 'md', className = '' }: PlayingCardProps) {
+export function PlayingCard({ card, faceDown = false, size = 'md', className = '', animationDelay }: PlayingCardProps) {
     const sizeClass = SIZE_CLASSES[size];
 
     if (faceDown || !card) {
         return (
-            <div className={`${sizeClass.card} ${className} rounded-lg bg-gradient-to-br from-blue-600 to-blue-800 border-2 border-blue-400 shadow-lg flex items-center justify-center`}>
+            <div
+                className={`${sizeClass.card} ${className} rounded-lg bg-gradient-to-br from-blue-600 to-blue-800 border-2 border-blue-400 shadow-lg flex items-center justify-center animate-deal opacity-0`}
+                style={{ animationDelay: animationDelay }}
+            >
                 <div className="text-blue-200 opacity-50 text-2xl">🂠</div>
             </div>
         );
@@ -51,8 +55,11 @@ export function PlayingCard({ card, faceDown = false, size = 'md', className = '
 
     return (
         <div
-            className={`${sizeClass.card} ${className} rounded-lg bg-white border-2 border-gray-300 shadow-lg flex flex-col items-center justify-center relative overflow-hidden`}
-            style={{ color: suitInfo.color }}
+            className={`${sizeClass.card} ${className} rounded-lg bg-white border-2 border-gray-300 shadow-lg flex flex-col items-center justify-center relative overflow-hidden animate-deal opacity-0`}
+            style={{
+                color: suitInfo.color,
+                animationDelay: animationDelay
+            }}
         >
             {/* Top-left corner */}
             <div className="absolute top-1 left-1 flex flex-col items-center leading-none">
@@ -77,20 +84,37 @@ interface CardHandProps {
     faceDown?: boolean;
     size?: 'sm' | 'md' | 'lg' | 'xl';
     overlap?: boolean;
+    dealingOrder?: number;
+    totalPlayers?: number;
 }
 
-export function CardHand({ cards, faceDown = false, size = 'md', overlap = true }: CardHandProps) {
+export function CardHand({
+    cards,
+    faceDown = false,
+    size = 'md',
+    overlap = true,
+    dealingOrder = 0,
+    totalPlayers = 5
+}: CardHandProps) {
     return (
         <div className="flex">
-            {cards.map((card, index) => (
-                <PlayingCard
-                    key={`${card}-${index}`}
-                    card={card}
-                    faceDown={faceDown}
-                    size={size}
-                    className={overlap && index > 0 ? '-ml-6' : ''}
-                />
-            ))}
+            {cards.map((card, index) => {
+                // Sequential calculation:
+                // Card 1 for all players, then Card 2 for all players
+                // delay = (round * totalPlayers + playerPosition) * timePerCard
+                const delay = (index * totalPlayers + dealingOrder) * 0.4;
+
+                return (
+                    <PlayingCard
+                        key={`${card}-${index}`}
+                        card={card}
+                        faceDown={faceDown}
+                        size={size}
+                        className={overlap && index > 0 ? '-ml-6' : ''}
+                        animationDelay={`${delay}s`}
+                    />
+                );
+            })}
         </div>
     );
 }
