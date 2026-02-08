@@ -70,10 +70,10 @@ export function PokerTable() {
             </div>
 
             {/* Main Table Area */}
-            <div className="flex-1 flex items-center justify-center relative min-h-[500px] w-full max-w-[1200px] mx-auto perspective-[1000px]">
+            <div className="flex-1 flex items-center justify-center relative min-h-[300px] w-full max-w-[1200px] mx-auto perspective-[1000px] py-4">
 
                 {/* The Green Felt Table */}
-                <div className="relative w-[85%] aspect-[2/1] bg-[#1a472a] rounded-[200px] shadow-[0_0_50px_rgba(0,0,0,0.8),inset_0_0_100px_rgba(0,0,0,0.5)] border-[16px] border-[#2d3436] flex items-center justify-center">
+                <div className="relative w-[90%] md:w-[85%] aspect-[2/1] max-h-[50vh] min-h-[300px] bg-[#1a472a] rounded-[200px] shadow-[0_0_50px_rgba(0,0,0,0.8),inset_0_0_100px_rgba(0,0,0,0.5)] border-[16px] border-[#2d3436] flex items-center justify-center">
 
                     {/* Felt Texture/Gradient */}
                     <div className="absolute inset-0 rounded-[180px] bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-green-700/20 via-transparent to-black/40 pointer-events-none" />
@@ -110,32 +110,6 @@ export function PokerTable() {
                         </div>
                     </div>
 
-                    {/* Winners Overlay */}
-                    {winners && winners.length > 0 && (
-                        <div className="absolute z-50 inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm rounded-[200px] animate-in fade-in duration-300">
-                            <div className="bg-gradient-to-b from-yellow-600 to-yellow-800 p-[2px] rounded-2xl transform scale-110 shadow-2xl">
-                                <div className="bg-gray-900 px-8 py-6 rounded-2xl flex flex-col items-center gap-4 text-center">
-                                    <div className="text-5xl">🏆</div>
-                                    <div>
-                                        <h3 className="text-2xl font-bold text-white mb-2">Winner!</h3>
-                                        <div className="flex flex-col gap-1">
-                                            {winners.map((w, i) => (
-                                                <div key={i} className="text-yellow-400 font-bold text-lg">
-                                                    {w.playerName} wins ${w.amount}
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                    <button
-                                        onClick={newHand}
-                                        className="mt-4 px-6 py-2 bg-yellow-600 hover:bg-yellow-500 text-white font-bold rounded-full transition-colors"
-                                    >
-                                        Next Hand
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    )}
 
                     {/* Players positioned absolutely around the table */}
                     {players.map((player, index) => (
@@ -157,7 +131,7 @@ export function PokerTable() {
             </div>
 
             {/* Action Buttons Area (Fixed Bottom) */}
-            <div className="h-[80px] w-full flex items-center justify-center z-30 pb-4">
+            <div className="min-h-[100px] w-full flex items-center justify-center z-30 pb-4 pt-2">
                 {handNumber === 0 ? (
                     <button
                         onClick={startGame}
@@ -165,6 +139,35 @@ export function PokerTable() {
                     >
                         Start Game
                     </button>
+                ) : winners && winners.length > 0 ? (
+                    <div className="w-full max-w-5xl px-4">
+                        <div className="flex flex-row items-center justify-between gap-6 p-6 bg-black/60 border border-yellow-500/30 rounded-2xl backdrop-blur-xl shadow-2xl w-full animate-in slide-in-from-bottom-4 duration-300">
+                            <div className="flex items-center gap-6">
+                                <div className="w-16 h-16 bg-yellow-500/10 rounded-full flex items-center justify-center border border-yellow-500/20 shrink-0">
+                                    <span className="text-3xl">🏆</span>
+                                </div>
+                                <div>
+                                    <h3 className="text-xl font-bold text-white mb-1">
+                                        {winners.length > 1 ? 'Winners!' : 'Winner!'}
+                                    </h3>
+                                    <div className="flex flex-wrap gap-x-6 gap-y-1">
+                                        {winners.map((w, i) => (
+                                            <div key={i} className="flex items-center gap-2">
+                                                <span className="text-gray-300 font-medium">{w.playerName}</span>
+                                                <span className="text-yellow-400 font-bold text-lg">${w.amount}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                            <button
+                                onClick={newHand}
+                                className="px-10 py-4 bg-gradient-to-r from-yellow-600 to-yellow-700 hover:from-yellow-500 hover:to-yellow-600 text-white font-bold rounded-xl transition-all shadow-[0_0_20px_rgba(234,179,8,0.2)] active:scale-95 uppercase tracking-wider border border-yellow-400/30 whitespace-nowrap"
+                            >
+                                Next Hand
+                            </button>
+                        </div>
+                    </div>
                 ) : isComplete && (!winners || winners.length === 0) ? (
                     <button
                         onClick={newHand}
@@ -173,7 +176,7 @@ export function PokerTable() {
                         Deal Next Hand
                     </button>
                 ) : (
-                    <div className="w-full max-w-2xl">
+                    <div className="w-full max-w-5xl px-4">
                         <ActionButtons />
                     </div>
                 )}

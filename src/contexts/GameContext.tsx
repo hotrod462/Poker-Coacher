@@ -79,7 +79,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
             // Add delay for realism
             botTurnTimeoutRef.current = setTimeout(() => {
                 dispatch({ type: 'BOT_TURN' });
-            }, 800 + Math.random() * 700); // 0.8-1.5s delay
+            }, 1500 + Math.random() * 1000); // 1.5-2.5s delay
         }
 
         return () => {
@@ -91,11 +91,12 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
 
     const startGame = useCallback(() => {
         dispatch({ type: 'START_GAME' });
-        // Immediately start first hand
-        setTimeout(() => dispatch({ type: 'NEW_HAND' }), 500);
+        // Immediately start first hand with a delay
+        setTimeout(() => dispatch({ type: 'NEW_HAND' }), 1000);
     }, []);
 
     const newHand = useCallback(() => {
+        // Add a small delay before dealing to clear the board visually if needed
         dispatch({ type: 'NEW_HAND' });
     }, []);
 

@@ -45,7 +45,7 @@ export function PlayerSeat({ player, isActive, isDealer, showCards = false, seat
             `}>
                 {/* Cards */}
                 <div className={`
-                    relative h-[40px] z-10 transition-all duration-300
+                    relative h-[80px] z-10 transition-all duration-300
                     ${folded ? 'opacity-40 grayscale' : ''}
                     ${isActive ? 'scale-110' : ''}
                 `}>
@@ -54,12 +54,21 @@ export function PlayerSeat({ player, isActive, isDealer, showCards = false, seat
                             <CardHand
                                 cards={holeCards}
                                 faceDown={!showCards && !isUser}
-                                size="md"
+                                size="lg"
                                 overlap={true}
                             />
                         </div>
                     ) : (
-                        <div className="w-[80px] h-[56px]" /> // Placeholder
+                        <div className="w-[100px] h-[70px]" /> // Placeholder for LG cards
+                    )}
+
+                    {isActive && !isUser && (
+                        <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-yellow-500/90 text-black text-[10px] font-bold px-2 py-0.5 rounded-full shadow-lg animate-bounce flex items-center gap-1">
+                            <span className="w-1 h-1 bg-black rounded-full animate-pulse" />
+                            <span className="w-1 h-1 bg-black rounded-full animate-pulse delay-75" />
+                            <span className="w-1 h-1 bg-black rounded-full animate-pulse delay-150" />
+                            THINKING
+                        </div>
                     )}
 
                     {folded && (
