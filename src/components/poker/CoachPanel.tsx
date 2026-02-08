@@ -228,19 +228,13 @@ export function CoachPanel() {
                             >
                                 <div className="flex items-center gap-3 px-1.5">
                                     {message.role === 'assistant' ? (
-                                        <>
-                                            <div className="p-1 px-1.5 bg-indigo-500/10 rounded-md border border-indigo-500/30">
-                                                <Bot className="w-4 h-4 text-indigo-400" />
-                                            </div>
-                                            <span className="text-xs font-black text-indigo-500/70 uppercase tracking-[0.2em] font-mono">Core.Insight</span>
-                                        </>
+                                        <div className="p-1 px-1.5 bg-indigo-500/10 rounded-md border border-indigo-500/30">
+                                            <Bot className="w-4 h-4 text-indigo-400" />
+                                        </div>
                                     ) : (
-                                        <>
-                                            <span className="text-xs font-black text-zinc-600 uppercase tracking-[0.2em] font-mono">User.Query</span>
-                                            <div className="p-1 px-1.5 bg-zinc-800 rounded-md border border-white/5">
-                                                <MessageSquare className="w-4 h-4 text-zinc-500" />
-                                            </div>
-                                        </>
+                                        <div className="p-1 px-1.5 bg-zinc-800 rounded-md border border-white/5">
+                                            <MessageSquare className="w-4 h-4 text-zinc-500" />
+                                        </div>
                                     )}
                                 </div>
 
@@ -280,7 +274,6 @@ export function CoachPanel() {
                                     <div className="p-1 bg-indigo-500/10 rounded-md border border-indigo-500/20">
                                         <Bot className="w-3 h-3 text-indigo-400" />
                                     </div>
-                                    <span className="text-xs font-bold text-zinc-500 uppercase tracking-widest">Processing</span>
                                 </div>
                                 <div className="bg-[#161621] border border-white/5 p-4 rounded-2xl rounded-tl-none w-2/3">
                                     <div className="flex gap-1.5">
