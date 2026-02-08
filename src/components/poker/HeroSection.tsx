@@ -1,19 +1,38 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Link from "next/link";
 import { ChevronRight, X } from "lucide-react";
 import { PokerTablePreview } from "./PokerTablePreview";
 import { SignUpForm } from "../sign-up-form";
+import { createClient } from "@/lib/supabase/client";
+import { useRouter } from "next/navigation";
 
 export function HeroSection() {
     const [isLoaded, setIsLoaded] = useState(false);
     const [showSignup, setShowSignup] = useState(false);
+    const [user, setUser] = useState<any>(null);
+    const router = useRouter();
 
     useEffect(() => {
         const timer = setTimeout(() => setIsLoaded(true), 100);
+
+        const supabase = createClient();
+        const checkUser = async () => {
+            const { data: { user } } = await supabase.auth.getUser();
+            setUser(user);
+        };
+        checkUser();
+
         return () => clearTimeout(timer);
     }, []);
+
+    const handleCtaClick = () => {
+        if (user) {
+            router.push("/game");
+        } else {
+            setShowSignup(true);
+        }
+    };
 
     return (
         <section className="relative w-full h-screen min-h-[700px] flex flex-col items-center justify-center overflow-hidden">
@@ -47,7 +66,7 @@ export function HeroSection() {
 
                 <div className="flex flex-col sm:flex-row gap-4 animate-in fade-in slide-in-from-bottom-10 duration-1000 delay-200">
                     <button
-                        onClick={() => setShowSignup(true)}
+                        onClick={handleCtaClick}
                         id="cta-start-playing"
                         className="group px-10 py-5 bg-white text-black text-lg font-black rounded-2xl shadow-xl hover:shadow-2xl transition-all transform hover:scale-105 flex items-center gap-3 uppercase tracking-tight"
                     >
