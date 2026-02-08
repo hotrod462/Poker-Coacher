@@ -121,7 +121,7 @@ export function CoachPanel() {
                         </div>
                     </div>
                     <div>
-                        <h2 className="text-lg font-black text-white tracking-tight uppercase">Coacher Poke</h2>
+                        <h2 className="text-lg font-black text-white tracking-tight uppercase">Coach Lou</h2>
                         <div className="flex items-center gap-1.5">
                             <div className={cn(
                                 "w-2 h-2 rounded-full",
@@ -203,10 +203,10 @@ export function CoachPanel() {
                                         <Sparkles className="w-16 h-16 text-indigo-400" />
                                     </div>
                                 </div>
-                                <h3 className="text-2xl font-black text-white mb-4 tracking-tight">READY FOR ACTION</h3>
+                                <h3 className="text-2xl font-black text-white mb-4 tracking-tight">READY TO PLAY?</h3>
                                 <p className="text-base text-zinc-500 leading-relaxed max-w-[300px] font-medium">
-                                    Start a <span className="text-indigo-400 font-bold italic">New Hand</span>.
-                                    I will provide real-time strategic insights for every move.
+                                    Start a <span className="text-indigo-400 font-bold italic">New Hand</span>, kid.
+                                    I'll be right here to show you the ropes and help you read the table.
                                 </p>
                             </div>
                         )}
