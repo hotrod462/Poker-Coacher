@@ -49,29 +49,30 @@ export interface GameState {
   // Hand info
   handNumber: number;
   street: Street;
-  
+
   // Cards
   deck: Card[];
   communityCards: Card[];
-  
+
   // Players
   players: Player[];
   dealerIndex: number;
   activePlayerIndex: number | null;
-  
+
   // Betting
   pot: number;
   currentBet: number;
   minRaise: number;
   smallBlind: number;
   bigBlind: number;
-  
+
   // History
   actionHistory: GameAction[];
-  
+
   // Status
   winners?: { playerId: string; playerName: string; amount: number; hand: string }[];
   isComplete: boolean;
+  isDealing?: boolean;
 }
 
 export interface ValidAction {

@@ -160,23 +160,25 @@ export function ChipStack({ amount, size = 'sm', className = '', maxChips = 5, s
     const displayChips = getChips();
 
     return (
-        <div className={`relative flex items-center h-10 ${className}`}>
-            <div className="relative" style={{
-                width: (size === 'xs' ? 16 : size === 'sm' ? 24 : size === 'md' ? 32 : 40) + (displayChips.length > 0 ? (displayChips.length - 1) * 2 : 0),
-                height: (size === 'xs' ? 16 : size === 'sm' ? 24 : size === 'md' ? 32 : 40) + (displayChips.length > 0 ? (displayChips.length - 1) * 2 : 0)
-            }}>
-                {displayChips.map((chip, i) => (
-                    <PokerChip
-                        key={i}
-                        color={chip.color}
-                        size={size}
-                        className="absolute"
-                        style={{
-                            left: `${i * 2}px`,
-                            bottom: `${i * 2}px`,
-                            zIndex: 10 + i,
-                        }}
-                    />
+        <div className={`relative flex items-center h-12 ${className}`}>
+            <div className="relative flex items-end gap-1.5 min-h-[48px]">
+                {/* Organize chips into columns (stacks) of max 5 chips each */}
+                {Array.from({ length: Math.ceil(displayChips.length / 5) }).map((_, colIdx) => (
+                    <div key={colIdx} className="relative w-8 h-10">
+                        {displayChips.slice(colIdx * 5, (colIdx + 1) * 5).map((chip, i) => (
+                            <PokerChip
+                                key={i}
+                                color={chip.color}
+                                size={size}
+                                className="absolute left-0"
+                                style={{
+                                    bottom: `${i * 3}px`, // Vertical stack
+                                    zIndex: 10 + i,
+                                    transform: `rotate(${((colIdx + i) % 3 - 1) * 2}deg)`, // Subtle randomness
+                                }}
+                            />
+                        ))}
+                    </div>
                 ))}
             </div>
             {amount > 0 && showAmount && (

@@ -36,6 +36,7 @@ type GameStateAction =
     | { type: 'NEW_HAND' }
     | { type: 'PLAYER_ACTION'; action: PlayerAction; amount?: number }
     | { type: 'BOT_TURN' }
+    | { type: 'FINISH_DEALING' }
     | { type: 'SET_STATE'; state: GameState };
 
 function gameReducer(state: GameState, action: GameStateAction): GameState {
@@ -48,6 +49,8 @@ function gameReducer(state: GameState, action: GameStateAction): GameState {
             return processAction(state, action.action, action.amount);
         case 'BOT_TURN':
             return executeBotTurn(state);
+        case 'FINISH_DEALING':
+            return { ...state, isDealing: false };
         case 'SET_STATE':
             return action.state;
         default:
@@ -70,11 +73,12 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
             clearTimeout(botTurnTimeoutRef.current);
         }
 
-        // If it's a bot's turn and game is active
+        // If it's a bot's turn and game is active and NOT currently dealing
         if (
             gameState.activePlayerIndex !== null &&
             !gameState.isComplete &&
-            !isUsersTurn
+            !isUsersTurn &&
+            !gameState.isDealing
         ) {
             // Add delay for realism
             botTurnTimeoutRef.current = setTimeout(() => {
@@ -87,7 +91,27 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
                 clearTimeout(botTurnTimeoutRef.current);
             }
         };
-    }, [gameState.activePlayerIndex, gameState.isComplete, isUsersTurn, gameState.street]);
+    }, [gameState.activePlayerIndex, gameState.isComplete, isUsersTurn, gameState.street, gameState.isDealing]);
+
+    // Handle finishing dealing animation
+    useEffect(() => {
+        if (gameState.isDealing) {
+            // Calculate dealing duration based on street to match CardHand animations
+            // Pre-flop: 2 cards * 5 players -> last card starts at 3.6s, finishes at 5.1s
+            // Flop: 3rd card starts at 4.0s, finishes at 5.5s
+            // Turn: 4th card starts at 6.0s, finishes at 7.5s
+            // River: 5th card starts at 8.0s, finishes at 9.5s
+            let duration = 6000; // Default for Pre-flop/Flop
+            if (gameState.street === 'turn') duration = 8000;
+            if (gameState.street === 'river') duration = 10000;
+            if (gameState.street === 'showdown') duration = 11000;
+
+            const timer = setTimeout(() => {
+                dispatch({ type: 'FINISH_DEALING' });
+            }, duration);
+            return () => clearTimeout(timer);
+        }
+    }, [gameState.isDealing, gameState.street]);
 
     const startGame = useCallback(() => {
         dispatch({ type: 'START_GAME' });

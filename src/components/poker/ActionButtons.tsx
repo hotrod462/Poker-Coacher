@@ -24,9 +24,9 @@ export function ActionButtons() {
     if (!isUsersTurn || validActions.length === 0) {
         return (
             <div className="flex items-center justify-center gap-2 px-6 py-4 bg-black/40 border border-white/5 rounded-full backdrop-blur-md">
-                <div className="w-2 h-2 rounded-full bg-yellow-500 animate-pulse" />
+                <div className={`w-2 h-2 rounded-full ${gameState.isDealing ? 'bg-blue-500' : 'bg-yellow-500'} animate-pulse`} />
                 <span className="text-gray-300 text-sm font-medium tracking-wide shadow-black drop-shadow-md">
-                    Waiting for action...
+                    {gameState.isDealing ? 'Dealing cards...' : 'Waiting for action...'}
                 </span>
             </div>
         );

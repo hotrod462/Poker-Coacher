@@ -86,30 +86,44 @@ export function PokerTable() {
                     </div>
 
                     {/* Community Cards Area */}
-                    <div className="relative z-10 flex flex-col items-center gap-4">
-                        {/* Pot Display */}
-                        <div className="flex flex-col items-center mb-4">
-                            <ChipStack amount={pot} size="md" maxChips={8} className="mb-2" />
-                            <div className="bg-black/40 backdrop-blur-md px-6 py-1 rounded-full border border-white/5 flex flex-col items-center">
-                                <span className="text-[10px] text-green-400 uppercase tracking-widest font-bold">Total Pot</span>
-                                <span className="text-xl text-white font-bold">${pot}</span>
+                    <div className="relative z-10 flex flex-col items-center justify-center min-h-[220px]">
+                        {/* Pot Display - Now more integrated */}
+                        <div className={`mb-6 flex flex-col items-center transition-all duration-500 ${pot > 0 ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform translate-y-4'}`}>
+                            <div className="relative mb-2">
+                                <div className="absolute inset-0 bg-yellow-500/20 blur-xl rounded-full" />
+                                <ChipStack amount={pot} size="md" maxChips={12} className="relative z-10" />
+                            </div>
+                            <div className="bg-black/60 backdrop-blur-xl px-6 py-2 rounded-2xl border border-white/10 flex flex-col items-center shadow-2xl">
+                                <span className="text-[10px] text-green-400 uppercase tracking-[0.2em] font-black mb-0.5">Total Pot</span>
+                                <span className="text-2xl text-white font-black tracking-tight">${pot.toLocaleString()}</span>
                             </div>
                         </div>
 
-                        {/* Cards */}
-                        <div className="flex items-center gap-3 h-[90px] min-w-[340px] justify-center p-2 rounded-xl">
+                        {/* Cards Area - Fixed height to prevent jumping */}
+                        <div className="flex items-center justify-center h-[120px] transition-all duration-500">
                             {communityCards.length > 0 ? (
-                                <CardHand cards={communityCards} size="xl" overlap={false} />
+                                <div className="p-3 bg-black/20 backdrop-blur-sm rounded-2xl border border-white/5 shadow-inner">
+                                    <CardHand cards={communityCards} size="xl" overlap={false} />
+                                </div>
                             ) : (
-                                <div className="text-white/20 font-bold tracking-[0.2em] text-sm">
-                                    {street === 'preflop' ? 'WAITING FOR ACTION' : 'COMMUNITY CARDS'}
+                                <div className="flex flex-col items-center gap-2 opacity-30">
+                                    <div className="flex gap-2">
+                                        {[1, 2, 3, 4, 5].map(i => (
+                                            <div key={i} className="w-16 h-24 border-2 border-dashed border-white/20 rounded-xl flex items-center justify-center">
+                                                <div className="w-8 h-12 bg-white/5 rounded-md" />
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <span className="text-white font-black tracking-[0.3em] text-[10px] uppercase mt-2">
+                                        {street === 'preflop' ? 'Waiting for Action' : 'Community Cards'}
+                                    </span>
                                 </div>
                             )}
                         </div>
 
-                        {/* Street Name */}
-                        <div className="mt-2">
-                            <span className="px-3 py-1 bg-white/5 rounded-full text-xs font-semibold text-gray-300 border border-white/5">
+                        {/* Street Name Indicator */}
+                        <div className={`mt-6 transition-all duration-500 ${gameState.handNumber > 0 ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}>
+                            <span className="px-4 py-1.5 bg-gradient-to-r from-zinc-800 to-zinc-900 rounded-full text-[10px] font-black uppercase tracking-[0.15em] text-zinc-400 border border-white/5 shadow-lg">
                                 {streetNames[street] || street}
                             </span>
                         </div>

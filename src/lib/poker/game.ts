@@ -82,6 +82,7 @@ export function createInitialGameState(userName: string = 'You'): GameState {
         bigBlind: DEFAULT_BIG_BLIND,
         actionHistory: [],
         isComplete: false,
+        isDealing: false,
     };
 }
 
@@ -168,6 +169,7 @@ export function startNewHand(state: GameState): GameState {
         actionHistory: [],
         winners: undefined,
         isComplete: false,
+        isDealing: true,
     };
 }
 
@@ -183,7 +185,7 @@ function findNextActiveIndex(current: number, activeIndices: number[], total: nu
  * Get valid actions for current player
  */
 export function getValidActions(state: GameState): ValidAction[] {
-    if (state.activePlayerIndex === null) return [];
+    if (state.activePlayerIndex === null || state.isDealing) return [];
 
     const player = state.players[state.activePlayerIndex];
     if (!player || player.folded || player.allIn) return [];
@@ -487,6 +489,7 @@ function advanceStreet(state: GameState): GameState {
         currentBet: 0,
         minRaise: state.bigBlind,
         activePlayerIndex: firstToAct,
+        isDealing: true,
     };
 }
 

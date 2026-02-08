@@ -99,8 +99,8 @@ export function CoachPanel() {
         // Don't re-analyze the same state
         if (stateKey === lastAnalyzedRef.current) return;
 
-        // Trigger analysis ONLY when it's user's turn and the game is active
-        const shouldAnalyze = isUsersTurn && gameState.handNumber > 0;
+        // Trigger analysis ONLY when it's user's turn and the game is active, and NOT dealing
+        const shouldAnalyze = isUsersTurn && gameState.handNumber > 0 && !gameState.isDealing;
 
         // Ensure player HAS cards before analyzing
         const hasHoleCards = userPlayer && userPlayer.holeCards && userPlayer.holeCards.length > 0;
