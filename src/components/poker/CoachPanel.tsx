@@ -131,18 +131,18 @@ export function CoachPanel() {
     };
 
     return (
-        <div className="flex flex-col h-full bg-[#0a0a0f] border-l border-white/5 overflow-hidden">
+        <div className="flex flex-col h-full bg-white/90 dark:bg-zinc-950/80 backdrop-blur-2xl border-l border-zinc-200 dark:border-white/10 overflow-hidden shadow-[0_0_40px_rgba(0,0,0,0.1)] dark:shadow-none">
             {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b border-white/5 bg-gradient-to-r from-[#12121a] to-[#0a0a0f] shadow-2xl z-10">
+            <div className="flex items-center justify-between p-4 border-b border-zinc-200/50 dark:border-white/5 bg-white/50 dark:bg-white/[0.02] backdrop-blur-xl z-10">
                 <div className="flex items-center gap-3">
                     <div className="relative">
-                        <div className="absolute inset-0 bg-indigo-500/20 blur-lg rounded-full animate-pulse" />
-                        <div className="relative p-2.5 bg-indigo-500/10 rounded-xl ring-1 ring-indigo-500/30 shadow-inner">
-                            <BrainCircuit className="w-5 h-5 text-indigo-400" />
+                        <div className="absolute inset-0 bg-blue-500/20 blur-lg rounded-full animate-pulse" />
+                        <div className="relative p-2.5 bg-blue-500/10 rounded-xl ring-1 ring-blue-500/30 shadow-inner">
+                            <BrainCircuit className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                         </div>
                     </div>
                     <div>
-                        <h2 className="text-lg font-black text-white tracking-tight uppercase">Nick the Groq</h2>
+                        <h2 className="text-lg font-black text-zinc-900 dark:text-white tracking-tight uppercase">Nick the Groq</h2>
                         <div className="flex items-center gap-1.5">
                             <div className={cn(
                                 "w-2 h-2 rounded-full",
@@ -156,11 +156,11 @@ export function CoachPanel() {
                     className={cn(
                         "flex items-center gap-2 px-4 py-2 text-xs font-black rounded-lg transition-all duration-300 ring-1 uppercase tracking-tighter",
                         autoAnalyze
-                            ? "bg-indigo-600/10 text-indigo-400 ring-indigo-500/30 hover:bg-indigo-600/20"
-                            : "bg-zinc-800 text-zinc-500 ring-zinc-700 hover:bg-zinc-700"
+                            ? "bg-blue-500/10 text-blue-600 dark:text-blue-400 ring-blue-500/30 hover:bg-blue-500/20"
+                            : "bg-zinc-100 dark:bg-zinc-800 text-zinc-400 dark:text-zinc-500 ring-zinc-200 dark:ring-zinc-700 hover:bg-zinc-200 dark:hover:bg-zinc-700"
                     )}
                 >
-                    <Zap className={cn("w-3.5 h-3.5", autoAnalyze ? "fill-indigo-400" : "fill-none")} />
+                    <Zap className={cn("w-3.5 h-3.5", autoAnalyze ? "fill-blue-600 dark:fill-blue-400" : "fill-none")} />
                     {autoAnalyze ? 'AUTO' : 'MANUAL'}
                 </button>
             </div>
@@ -169,11 +169,11 @@ export function CoachPanel() {
             <ScrollArea className="flex-1 min-h-0">
                 <div className="flex flex-col min-h-full">
                     {/* Term Dictionary - First */}
-                    <div className="px-4 py-1 border-b border-white/5 bg-[#0f0f17]">
+                    <div className="px-4 py-1 border-b border-zinc-200/50 dark:border-white/5 bg-zinc-50/50 dark:bg-white/[0.02]">
                         <Accordion type="single" collapsible className="w-full">
                             <AccordionItem value="poker-dictionary" className="border-none">
                                 <AccordionTrigger className="py-3 hover:no-underline group">
-                                    <div className="flex items-center gap-2.5 text-zinc-500 group-data-[state=open]:text-indigo-400 transition-all duration-300">
+                                    <div className="flex items-center gap-2.5 text-zinc-500 group-data-[state=open]:text-blue-600 dark:group-data-[state=open]:text-blue-400 transition-all duration-300">
                                         <BookOpen className="w-4 h-4" />
                                         <span className="text-sm font-black uppercase tracking-[0.1em]">Term Dictionary</span>
                                     </div>
@@ -181,9 +181,9 @@ export function CoachPanel() {
                                 <AccordionContent className="pb-4">
                                     <div className="grid grid-cols-1 gap-2 mt-1">
                                         {POKER_TERMS.map((item) => (
-                                            <div key={item.term} className="group/item p-3 rounded-xl bg-white/[0.02] border border-white/[0.05] hover:bg-white/[0.05] hover:border-indigo-500/20 transition-all duration-300">
-                                                <h4 className="text-sm font-black text-indigo-400 uppercase tracking-wider mb-1">{item.term}</h4>
-                                                <p className="text-sm text-zinc-400 leading-relaxed font-medium">{item.definition}</p>
+                                            <div key={item.term} className="group/item p-3 rounded-xl bg-white/50 dark:bg-white/[0.02] border border-zinc-200 dark:border-white/[0.05] hover:bg-white dark:hover:bg-white/[0.05] hover:border-blue-500/20 hover:shadow-lg dark:hover:shadow-none transition-all duration-300">
+                                                <h4 className="text-sm font-black text-blue-600 dark:text-blue-400 uppercase tracking-wider mb-1">{item.term}</h4>
+                                                <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed font-medium">{item.definition}</p>
                                             </div>
                                         ))}
                                     </div>
@@ -193,7 +193,7 @@ export function CoachPanel() {
                             {/* Hand Rankings - Second */}
                             <AccordionItem value="hand-rankings" className="border-none">
                                 <AccordionTrigger className="py-3 hover:no-underline group">
-                                    <div className="flex items-center gap-2.5 text-zinc-500 group-data-[state=open]:text-indigo-400 transition-all duration-300">
+                                    <div className="flex items-center gap-2.5 text-zinc-500 group-data-[state=open]:text-blue-600 dark:group-data-[state=open]:text-blue-400 transition-all duration-300">
                                         <Layers className="w-4 h-4" />
                                         <span className="text-sm font-black uppercase tracking-[0.1em]">Hand Hierarchies</span>
                                     </div>
@@ -201,14 +201,14 @@ export function CoachPanel() {
                                 <AccordionContent className="pb-4">
                                     <div className="grid grid-cols-1 gap-3 mt-1">
                                         {HAND_RANKINGS.map((hand, idx) => (
-                                            <div key={hand.rank} className="group/item relative overflow-hidden p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.05] hover:bg-white/[0.05] hover:border-indigo-500/20 transition-all duration-300 cursor-default">
+                                            <div key={hand.rank} className="group/item relative overflow-hidden p-3.5 rounded-xl bg-white/50 dark:bg-white/[0.02] border border-zinc-200 dark:border-white/[0.05] hover:bg-white dark:hover:bg-white/[0.05] hover:border-blue-500/20 hover:shadow-lg dark:hover:shadow-none transition-all duration-300 cursor-default">
                                                 <div className="absolute top-0 right-0 p-1 opacity-0 group-hover/item:opacity-100 transition-opacity">
-                                                    <Trophy className="w-4 h-4 text-indigo-500/30" />
+                                                    <Trophy className="w-4 h-4 text-blue-500/30" />
                                                 </div>
                                                 <div className="flex flex-col gap-3">
                                                     <div className="flex items-center justify-between mb-1">
-                                                        <span className="text-base font-bold text-zinc-300 group-hover/item:text-white transition-colors">{idx + 1}. {hand.rank}</span>
-                                                        <span className="text-xs text-indigo-400 font-mono font-bold tracking-tight px-2 py-0.5 bg-indigo-500/10 rounded-full border border-indigo-500/10">{hand.cards}</span>
+                                                        <span className="text-base font-bold text-zinc-700 dark:text-zinc-300 group-hover/item:text-zinc-900 dark:group-hover/item:text-white transition-colors">{idx + 1}. {hand.rank}</span>
+                                                        <span className="text-xs text-blue-600 dark:text-blue-400 font-mono font-bold tracking-tight px-2 py-0.5 bg-blue-500/10 rounded-full border border-blue-500/10">{hand.cards}</span>
                                                     </div>
 
                                                     {/* Visual Example Cards */}
@@ -224,7 +224,7 @@ export function CoachPanel() {
                                                         ))}
                                                     </div>
 
-                                                    <p className="text-sm text-zinc-500 group-hover/item:text-zinc-400 leading-normal transition-colors">{hand.desc}</p>
+                                                    <p className="text-sm text-zinc-500 group-hover/item:text-zinc-600 dark:group-hover/item:text-zinc-400 leading-normal transition-colors">{hand.desc}</p>
                                                 </div>
                                             </div>
                                         ))}
@@ -239,14 +239,14 @@ export function CoachPanel() {
                         {messages.length === 0 && gameState.handNumber === 0 && (
                             <div className="flex flex-col items-center text-center px-4 py-16">
                                 <div className="relative mb-8">
-                                    <div className="absolute inset-0 bg-indigo-500/20 blur-3xl rounded-full animate-pulse" />
-                                    <div className="relative p-6 bg-[#1a1a2e] rounded-[2rem] ring-1 ring-white/10 shadow-2xl">
-                                        <Sparkles className="w-16 h-16 text-indigo-400" />
+                                    <div className="absolute inset-0 bg-blue-500/20 blur-3xl rounded-full animate-pulse" />
+                                    <div className="relative p-6 bg-white dark:bg-[#1a1a2e] rounded-[2rem] ring-1 ring-zinc-200 dark:ring-white/10 shadow-2xl">
+                                        <Sparkles className="w-16 h-16 text-blue-600 dark:text-blue-400" />
                                     </div>
                                 </div>
-                                <h3 className="text-2xl font-black text-white mb-4 tracking-tight">READY TO PLAY?</h3>
+                                <h3 className="text-2xl font-black text-zinc-900 dark:text-white mb-4 tracking-tight">READY TO PLAY?</h3>
                                 <p className="text-base text-zinc-500 leading-relaxed max-w-[300px] font-medium">
-                                    Start a <span className="text-indigo-400 font-bold italic">New Hand</span>, kid.
+                                    Start a <span className="text-blue-600 dark:text-blue-400 font-bold italic">New Hand</span>, kid.
                                     I'll be right here to show you the ropes and help you read the table.
                                 </p>
                             </div>
@@ -269,11 +269,11 @@ export function CoachPanel() {
                             >
                                 <div className="flex items-center gap-3 px-1.5">
                                     {message.role === 'assistant' ? (
-                                        <div className="p-1 px-1.5 bg-indigo-500/10 rounded-md border border-indigo-500/30">
-                                            <Bot className="w-4 h-4 text-indigo-400" />
+                                        <div className="p-1 px-1.5 bg-blue-500/10 rounded-md border border-blue-500/30">
+                                            <Bot className="w-4 h-4 text-blue-600 dark:text-blue-400" />
                                         </div>
                                     ) : (
-                                        <div className="p-1 px-1.5 bg-zinc-800 rounded-md border border-white/5">
+                                        <div className="p-1 px-1.5 bg-zinc-100 dark:bg-zinc-800 rounded-md border border-zinc-200 dark:border-white/5">
                                             <MessageSquare className="w-4 h-4 text-zinc-500" />
                                         </div>
                                     )}
@@ -281,10 +281,10 @@ export function CoachPanel() {
 
                                 <div
                                     className={cn(
-                                        "relative max-w-[95%] p-5 rounded-2xl text-base leading-relaxed shadow-2xl transition-all duration-300",
+                                        "relative max-w-[95%] p-5 rounded-2xl text-base leading-relaxed shadow-sm dark:shadow-2xl transition-all duration-300",
                                         message.role === 'user'
-                                            ? "bg-indigo-600 text-white rounded-tr-none border border-white/10"
-                                            : "bg-[#11111a] text-zinc-300 rounded-tl-none border border-white/[0.03]"
+                                            ? "bg-blue-600 text-white rounded-tr-none border border-white/10"
+                                            : "bg-white dark:bg-[#11111a] text-zinc-700 dark:text-zinc-300 rounded-tl-none border border-zinc-200 dark:border-white/[0.03]"
                                     )}
                                 >
                                     <div className="prose prose-invert prose-sm max-w-none">
@@ -292,7 +292,7 @@ export function CoachPanel() {
                                             {(message.parts || []).map((part: any, i: number) => {
                                                 if (part.type === 'text') return <span key={i}>{part.text}</span>;
                                                 if (part.type === 'reasoning') return (
-                                                    <div key={i} className="mb-4 p-4 bg-black/40 rounded-xl border-l-[4px] border-indigo-500/40 text-zinc-500 italic text-sm leading-relaxed shadow-inner">
+                                                    <div key={i} className="mb-4 p-4 bg-zinc-50/50 dark:bg-black/40 rounded-xl border-l-[4px] border-blue-500/40 text-zinc-500 italic text-sm leading-relaxed shadow-inner">
                                                         <div className="flex items-center gap-1.5 mb-2 opacity-60">
                                                             <BrainCircuit className="w-4 h-4" />
                                                             <span className="text-[11px] font-black uppercase tracking-widest not-italic">Neural Process</span>
@@ -312,15 +312,15 @@ export function CoachPanel() {
                         {isLoading && (
                             <div className="flex flex-col gap-2 animate-pulse">
                                 <div className="flex items-center gap-2 mb-1 px-1">
-                                    <div className="p-1 bg-indigo-500/10 rounded-md border border-indigo-500/20">
-                                        <Bot className="w-3 h-3 text-indigo-400" />
+                                    <div className="p-1 bg-blue-500/10 rounded-md border border-blue-500/20">
+                                        <Bot className="w-3 h-3 text-blue-600 dark:text-blue-400" />
                                     </div>
                                 </div>
-                                <div className="bg-[#161621] border border-white/5 p-4 rounded-2xl rounded-tl-none w-2/3">
+                                <div className="bg-white dark:bg-[#161621] border border-zinc-200 dark:border-white/5 p-4 rounded-2xl rounded-tl-none w-2/3">
                                     <div className="flex gap-1.5">
-                                        <div className="w-1.5 h-1.5 bg-indigo-500/40 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                                        <div className="w-1.5 h-1.5 bg-indigo-500/40 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                                        <div className="w-1.5 h-1.5 bg-indigo-500/40 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                                        <div className="w-1.5 h-1.5 bg-blue-500/40 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                                        <div className="w-1.5 h-1.5 bg-blue-500/40 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                                        <div className="w-1.5 h-1.5 bg-blue-500/40 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
                                     </div>
                                 </div>
                             </div>
@@ -331,15 +331,15 @@ export function CoachPanel() {
             </ScrollArea>
 
             {/* Question input */}
-            <div className="p-4 bg-gradient-to-t from-black via-[#0a0a0f] to-transparent border-t border-white/5 mt-auto">
+            <div className="p-4 bg-white/80 dark:bg-[#0a0a0f]/80 backdrop-blur-md border-t border-zinc-200/50 dark:border-white/5 mt-auto">
                 <form onSubmit={handleSubmit} className="relative group">
-                    <div className="absolute inset-0 bg-indigo-500/5 blur-xl group-focus-within:bg-indigo-500/10 transition-colors rounded-2xl" />
+                    <div className="absolute inset-0 bg-blue-500/5 blur-xl group-focus-within:bg-blue-500/10 transition-colors rounded-2xl" />
                     <input
                         type="text"
                         value={userQuestion}
                         onChange={(e) => setUserQuestion(e.target.value)}
                         placeholder="Inquire about strategy or odds..."
-                        className="relative w-full pl-6 pr-16 py-5 bg-zinc-900 border border-white/5 rounded-2xl text-white text-base placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:bg-zinc-800 transition-all duration-300 shadow-2xl"
+                        className="relative w-full pl-6 pr-16 py-5 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-white/5 rounded-2xl text-zinc-900 dark:text-white text-base placeholder-zinc-500 dark:placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:bg-white dark:focus:bg-zinc-800 transition-all duration-300 shadow-xl"
                         disabled={isLoading}
                     />
                     <button
@@ -348,24 +348,24 @@ export function CoachPanel() {
                         className={cn(
                             "absolute right-3 top-3 p-2.5 rounded-xl transition-all duration-300",
                             userQuestion.trim() && !isLoading
-                                ? "bg-indigo-600 text-white shadow-[0_0_20px_rgba(79,70,229,0.4)] hover:bg-indigo-500 hover:scale-105 active:scale-95"
-                                : "text-zinc-700 cursor-not-allowed"
+                                ? "bg-blue-600 text-white shadow-[0_0_20px_rgba(37,99,235,0.4)] hover:bg-blue-500 hover:scale-105 active:scale-95"
+                                : "text-zinc-400 dark:text-zinc-700 cursor-not-allowed"
                         )}
                     >
                         <SendHorizontal className="w-6 h-6" />
                     </button>
                 </form>
-                <div className="mt-5 flex items-center justify-between px-3 text-xs text-zinc-600 font-black uppercase tracking-[0.2em]">
-                    <div className="flex items-center gap-2 py-1.5 px-3 bg-white/[0.03] rounded-md border border-white/[0.05]">
-                        <HandIcon className="w-4 h-4 text-indigo-500/50" />
+                <div className="mt-5 flex items-center justify-between px-3 text-xs text-zinc-500 dark:text-zinc-600 font-black uppercase tracking-[0.2em]">
+                    <div className="flex items-center gap-2 py-1.5 px-3 bg-zinc-100 dark:bg-white/[0.03] rounded-md border border-zinc-200 dark:border-white/[0.05]">
+                        <HandIcon className="w-4 h-4 text-blue-500/50" />
                         <span>Odds</span>
                     </div>
-                    <div className="flex items-center gap-2 py-1.5 px-3 bg-white/[0.03] rounded-md border border-white/[0.05]">
-                        <History className="w-4 h-4 text-indigo-500/50" />
+                    <div className="flex items-center gap-2 py-1.5 px-3 bg-zinc-100 dark:bg-white/[0.03] rounded-md border border-zinc-200 dark:border-white/[0.05]">
+                        <History className="w-4 h-4 text-blue-500/50" />
                         <span>Ranges</span>
                     </div>
-                    <div className="flex items-center gap-2 py-1.5 px-3 bg-white/[0.03] rounded-md border border-white/[0.05]">
-                        <Settings2 className="w-4 h-4 text-indigo-500/50" />
+                    <div className="flex items-center gap-2 py-1.5 px-3 bg-zinc-100 dark:bg-white/[0.03] rounded-md border border-zinc-200 dark:border-white/[0.05]">
+                        <Settings2 className="w-4 h-4 text-blue-500/50" />
                         <span>Theory</span>
                     </div>
                 </div>
