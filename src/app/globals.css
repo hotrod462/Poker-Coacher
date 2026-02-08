@@ -85,4 +85,13 @@
   .animate-deal {
     animation: deal-card 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }
