@@ -28,15 +28,15 @@ export function PokerTable() {
         // 5 Players: 0 (User), 1 (Left), 2 (Top Left), 3 (Top Right), 4 (Right)
         switch (index) {
             case 0: // User - Bottom Center
-                return { bottom: '-30px', left: '50%', transform: 'translateX(-50%)' };
+                return { bottom: '-80px', left: '50%', transform: 'translateX(-50%)' };
             case 1: // Bot 1 - Left
-                return { top: '55%', left: '-40px', transform: 'translateY(-50%)' };
+                return { top: '55%', left: '-60px', transform: 'translateY(-50%)' };
             case 2: // Bot 2 - Top Left
-                return { top: '-30px', left: '20%', transform: 'translateX(-50%)' };
+                return { top: '-80px', left: '25%', transform: 'translateX(-50%)' };
             case 3: // Bot 3 - Top Right
-                return { top: '-30px', right: '20%', transform: 'translateX(50%)' };
+                return { top: '-80px', right: '25%', transform: 'translateX(50%)' };
             case 4: // Bot 4 - Right
-                return { top: '55%', right: '-40px', transform: 'translateY(-50%)' };
+                return { top: '55%', right: '-60px', transform: 'translateY(-50%)' };
             default:
                 return {};
         }

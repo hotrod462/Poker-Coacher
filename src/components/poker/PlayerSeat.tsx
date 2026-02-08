@@ -59,7 +59,7 @@ export function PlayerSeat({ player, isActive, isDealer, showCards = false, seat
                             />
                         </div>
                     ) : (
-                        <div className="w-[100px] h-[70px]" /> // Placeholder for LG cards
+                        <div className="w-[100px] h-28" /> // Placeholder for LG cards (matches h-28)
                     )}
 
                     {isActive && !isUser && (
