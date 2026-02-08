@@ -30,7 +30,7 @@ export function CoachPanel() {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [messages]);
 
-    // Auto-analyze when it's user's turn or at key moments
+    // Auto-analyze when it's user's turn
     useEffect(() => {
         if (!autoAnalyze) return;
 
@@ -40,20 +40,21 @@ export function CoachPanel() {
         // Don't re-analyze the same state
         if (stateKey === lastAnalyzedRef.current) return;
 
-        // Trigger analysis at key points
-        const shouldAnalyze =
-            (isUsersTurn && gameState.handNumber > 0) ||  // When it's user's turn
-            (gameState.street === 'flop' && gameState.communityCards.length === 3) ||  // New flop
-            (gameState.street === 'turn' && gameState.communityCards.length === 4) ||  // New turn
-            (gameState.street === 'river' && gameState.communityCards.length === 5);   // New river
+        // Trigger analysis ONLY when it's user's turn and the game is active
+        const shouldAnalyze = isUsersTurn && gameState.handNumber > 0;
 
-        if (shouldAnalyze && !isLoading && userPlayer && userPlayer.holeCards.length > 0) {
+        // Ensure player HAS cards before analyzing
+        const hasHoleCards = userPlayer && userPlayer.holeCards && userPlayer.holeCards.length > 0;
+
+        if (shouldAnalyze && !isLoading && hasHoleCards) {
             lastAnalyzedRef.current = stateKey;
 
             // Clear previous messages and start new analysis
             setMessages([]);
             sendMessage({
                 text: 'Analyze the current situation',
+            }, {
+                body: { gameState, userPlayer },
             });
         }
     }, [gameState, isUsersTurn, autoAnalyze, userPlayer, isLoading, sendMessage, setMessages]);
@@ -64,6 +65,8 @@ export function CoachPanel() {
 
         sendMessage({
             text: userQuestion,
+        }, {
+            body: { gameState, userPlayer, question: userQuestion },
         });
         setUserQuestion('');
     };

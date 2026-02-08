@@ -95,7 +95,18 @@ function getPositionName(seatIndex: number, dealerIndex: number, numPlayers: num
 
 export async function POST(req: Request) {
     try {
-        const { messages, gameState, userPlayer } = await req.json();
+        const body = await req.json();
+        console.log('Coach API request body:', JSON.stringify(body, null, 2));
+
+        const { messages, gameState, userPlayer } = body;
+
+        if (!gameState) {
+            console.error('Missing gameState in request body');
+            return new Response(
+                JSON.stringify({ error: 'Missing game state context' }),
+                { status: 400, headers: { 'Content-Type': 'application/json' } }
+            );
+        }
 
         const gameContext = formatGameContext(gameState, userPlayer);
 
