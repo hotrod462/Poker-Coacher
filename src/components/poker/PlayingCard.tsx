@@ -9,7 +9,7 @@ import React from 'react';
 interface PlayingCardProps {
     card?: string;  // e.g., "As" for Ace of spades
     faceDown?: boolean;
-    size?: 'sm' | 'md' | 'lg';
+    size?: 'sm' | 'md' | 'lg' | 'xl';
     className?: string;
 }
 
@@ -30,6 +30,7 @@ const SIZE_CLASSES = {
     sm: { card: 'w-12 h-16', rank: 'text-sm', suit: 'text-lg' },
     md: { card: 'w-16 h-22', rank: 'text-lg', suit: 'text-2xl' },
     lg: { card: 'w-20 h-28', rank: 'text-xl', suit: 'text-3xl' },
+    xl: { card: 'w-24 h-36', rank: 'text-2xl', suit: 'text-4xl' },
 };
 
 export function PlayingCard({ card, faceDown = false, size = 'md', className = '' }: PlayingCardProps) {
@@ -74,7 +75,7 @@ export function PlayingCard({ card, faceDown = false, size = 'md', className = '
 interface CardHandProps {
     cards: string[];
     faceDown?: boolean;
-    size?: 'sm' | 'md' | 'lg';
+    size?: 'sm' | 'md' | 'lg' | 'xl';
     overlap?: boolean;
 }
 

@@ -14,12 +14,6 @@ export function PokerTable() {
     const { gameState, newHand, startGame } = useGame();
     const { players, communityCards, pot, street, dealerIndex, activePlayerIndex, winners, handNumber, isComplete } = gameState;
 
-    // Position players around the table (5 players)
-    // Layout: Top row (3 players), Bottom row (user center, 1 player each side)
-    const topPlayers = players.slice(1, 4);  // Bots 1-3
-    const bottomLeftPlayer = players[4];      // Bot 4
-    const userPlayer = players[0];            // User
-
     const streetNames: Record<string, string> = {
         preflop: 'Pre-Flop',
         flop: 'Flop',
@@ -29,109 +23,159 @@ export function PokerTable() {
         complete: 'Complete',
     };
 
+    // Helper to get position based on index (0 is user)
+    const getPositionStyle = (index: number) => {
+        // 5 Players: 0 (User), 1 (Left), 2 (Top Left), 3 (Top Right), 4 (Right)
+        switch (index) {
+            case 0: // User - Bottom Center
+                return { bottom: '-30px', left: '50%', transform: 'translateX(-50%)' };
+            case 1: // Bot 1 - Left
+                return { top: '55%', left: '-40px', transform: 'translateY(-50%)' };
+            case 2: // Bot 2 - Top Left
+                return { top: '-30px', left: '20%', transform: 'translateX(-50%)' };
+            case 3: // Bot 3 - Top Right
+                return { top: '-30px', right: '20%', transform: 'translateX(50%)' };
+            case 4: // Bot 4 - Right
+                return { top: '55%', right: '-40px', transform: 'translateY(-50%)' };
+            default:
+                return {};
+        }
+    };
+
+    const getSeatPosition = (index: number) => {
+        switch (index) {
+            case 0: return 'bottom';
+            case 1: return 'left';
+            case 2: return 'top-left';
+            case 3: return 'top-right';
+            case 4: return 'right';
+            default: return 'bottom';
+        }
+    };
+
     return (
-        <div className="flex flex-col h-full bg-gradient-to-b from-gray-900 to-gray-950 p-4 overflow-hidden">
-            {/* Header */}
-            <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-4">
-                    <h2 className="text-xl font-bold text-white">🃏 Poker Coach</h2>
-                    <span className="text-sm text-gray-400">Hand #{handNumber}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                    <span className="px-3 py-1 bg-purple-600 rounded-full text-sm font-semibold">
-                        {streetNames[street] || street}
+        <div className="flex flex-col h-full bg-[#0a0a0a] p-4 overflow-hidden relative">
+            {/* Background Texture/Gradient */}
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-gray-900 via-[#050505] to-black opacity-80 pointer-events-none" />
+
+            {/* Header Info - Floating */}
+            <div className="absolute top-6 left-6 z-10 flex flex-col gap-2">
+                <div className="flex items-center gap-3 bg-black/40 backdrop-blur-md p-2 rounded-lg border border-white/5">
+                    <span className="text-xl font-bold bg-gradient-to-r from-green-400 to-emerald-600 bg-clip-text text-transparent">
+                        Poker Coach
                     </span>
-                    <span className="px-3 py-1 bg-green-600 rounded-full text-sm font-semibold">
-                        Pot: ${pot}
-                    </span>
+                    <div className="h-4 w-px bg-white/10" />
+                    <span className="text-sm text-gray-400 font-mono">Hand #{handNumber}</span>
                 </div>
             </div>
 
-            {/* Table */}
-            <div className="flex-1 flex flex-col items-center justify-center min-h-0">
-                {/* Top row - 3 bots */}
-                <div className="flex items-end justify-center gap-6 mb-6">
-                    {topPlayers.map((player) => (
-                        <PlayerSeat
-                            key={player.id}
-                            player={player}
-                            isActive={activePlayerIndex === player.seatIndex}
-                            isDealer={dealerIndex === player.seatIndex}
-                            showCards={isComplete}
-                        />
-                    ))}
-                </div>
+            {/* Main Table Area */}
+            <div className="flex-1 flex items-center justify-center relative min-h-[500px] w-full max-w-[1200px] mx-auto perspective-[1000px]">
 
-                {/* Center - Community cards */}
-                <div className="relative flex flex-col items-center gap-4 py-6 px-12 bg-green-800/40 rounded-[100px] border-4 border-green-700/50 shadow-xl mb-6">
-                    {/* Community cards */}
-                    <div className="flex gap-2 min-h-[64px] items-center">
-                        {communityCards.length > 0 ? (
-                            <CardHand cards={communityCards} size="md" overlap={false} />
-                        ) : (
-                            <span className="text-green-400/50 text-sm">Community Cards</span>
-                        )}
+                {/* The Green Felt Table */}
+                <div className="relative w-[85%] aspect-[2/1] bg-[#1a472a] rounded-[200px] shadow-[0_0_50px_rgba(0,0,0,0.8),inset_0_0_100px_rgba(0,0,0,0.5)] border-[16px] border-[#2d3436] flex items-center justify-center">
+
+                    {/* Felt Texture/Gradient */}
+                    <div className="absolute inset-0 rounded-[180px] bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-green-700/20 via-transparent to-black/40 pointer-events-none" />
+
+                    {/* Center Ring/Logo Area */}
+                    <div className="absolute inset-0 flex items-center justify-center opacity-10 pointer-events-none">
+                        <div className="w-64 h-32 border-4 border-yellow-500/20 rounded-full" />
                     </div>
 
-                    {/* Winners display */}
+                    {/* Community Cards Area */}
+                    <div className="relative z-10 flex flex-col items-center gap-4">
+                        {/* Pot Display */}
+                        <div className="bg-black/40 backdrop-blur-md px-6 py-2 rounded-full border border-white/5 flex flex-col items-center mb-4">
+                            <span className="text-xs text-green-400 uppercase tracking-wider font-bold">Total Pot</span>
+                            <span className="text-2xl text-white font-bold">${pot}</span>
+                        </div>
+
+                        {/* Cards */}
+                        <div className="flex items-center gap-3 h-[90px] min-w-[340px] justify-center p-2 rounded-xl">
+                            {communityCards.length > 0 ? (
+                                <CardHand cards={communityCards} size="xl" overlap={false} />
+                            ) : (
+                                <div className="text-white/20 font-bold tracking-[0.2em] text-sm">
+                                    {street === 'preflop' ? 'WAITING FOR ACTION' : 'COMMUNITY CARDS'}
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Street Name */}
+                        <div className="mt-2">
+                            <span className="px-3 py-1 bg-white/5 rounded-full text-xs font-semibold text-gray-300 border border-white/5">
+                                {streetNames[street] || street}
+                            </span>
+                        </div>
+                    </div>
+
+                    {/* Winners Overlay */}
                     {winners && winners.length > 0 && (
-                        <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 whitespace-nowrap">
-                            <div className="px-4 py-2 bg-yellow-500 text-black font-bold rounded-lg shadow-lg text-sm">
-                                🏆 {winners.map(w => `${w.playerName} wins $${w.amount}`).join(', ')}
+                        <div className="absolute z-50 inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm rounded-[200px] animate-in fade-in duration-300">
+                            <div className="bg-gradient-to-b from-yellow-600 to-yellow-800 p-[2px] rounded-2xl transform scale-110 shadow-2xl">
+                                <div className="bg-gray-900 px-8 py-6 rounded-2xl flex flex-col items-center gap-4 text-center">
+                                    <div className="text-5xl">🏆</div>
+                                    <div>
+                                        <h3 className="text-2xl font-bold text-white mb-2">Winner!</h3>
+                                        <div className="flex flex-col gap-1">
+                                            {winners.map((w, i) => (
+                                                <div key={i} className="text-yellow-400 font-bold text-lg">
+                                                    {w.playerName} wins ${w.amount}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                    <button
+                                        onClick={newHand}
+                                        className="mt-4 px-6 py-2 bg-yellow-600 hover:bg-yellow-500 text-white font-bold rounded-full transition-colors"
+                                    >
+                                        Next Hand
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     )}
-                </div>
 
-                {/* Bottom row - Bot 4, User, empty space */}
-                <div className="flex items-start justify-center gap-6">
-                    {bottomLeftPlayer && (
-                        <PlayerSeat
-                            player={bottomLeftPlayer}
-                            isActive={activePlayerIndex === bottomLeftPlayer.seatIndex}
-                            isDealer={dealerIndex === bottomLeftPlayer.seatIndex}
-                            showCards={isComplete}
-                        />
-                    )}
-
-                    {userPlayer && (
-                        <div className="flex flex-col items-center gap-3">
+                    {/* Players positioned absolutely around the table */}
+                    {players.map((player, index) => (
+                        <div
+                            key={player.id}
+                            className="absolute z-20"
+                            style={getPositionStyle(index)}
+                        >
                             <PlayerSeat
-                                player={userPlayer}
-                                isActive={activePlayerIndex === userPlayer.seatIndex}
-                                isDealer={dealerIndex === userPlayer.seatIndex}
-                                showCards={true}
+                                player={player}
+                                isActive={activePlayerIndex === player.seatIndex}
+                                isDealer={dealerIndex === player.seatIndex}
+                                showCards={isComplete}
+                                seatPosition={getSeatPosition(index) as any}
                             />
                         </div>
-                    )}
-
-                    {/* Empty space for balance */}
-                    <div className="w-[140px]" />
+                    ))}
                 </div>
             </div>
 
-            {/* Action buttons */}
-            <div className="mt-4">
+            {/* Action Buttons Area (Fixed Bottom) */}
+            <div className="h-[80px] w-full flex items-center justify-center z-30 pb-4">
                 {handNumber === 0 ? (
-                    <div className="flex justify-center">
-                        <button
-                            onClick={startGame}
-                            className="px-8 py-4 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 text-white text-lg font-bold rounded-xl shadow-lg transition-all transform hover:scale-105"
-                        >
-                            🎮 Start Game
-                        </button>
-                    </div>
-                ) : isComplete ? (
-                    <div className="flex justify-center">
-                        <button
-                            onClick={newHand}
-                            className="px-8 py-4 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-400 hover:to-indigo-500 text-white text-lg font-bold rounded-xl shadow-lg transition-all"
-                        >
-                            Deal Next Hand →
-                        </button>
-                    </div>
+                    <button
+                        onClick={startGame}
+                        className="px-8 py-4 bg-gradient-to-r from-green-600 to-emerald-700 hover:from-green-500 hover:to-emerald-600 text-white text-lg font-bold rounded-full shadow-[0_0_30px_rgba(34,197,94,0.4)] transition-all transform hover:scale-105 active:scale-95 border border-green-400/30"
+                    >
+                        Start Game
+                    </button>
+                ) : isComplete && (!winners || winners.length === 0) ? (
+                    <button
+                        onClick={newHand}
+                        className="px-8 py-4 bg-blue-600 hover:bg-blue-500 text-white text-lg font-bold rounded-full shadow-lg transition-all"
+                    >
+                        Deal Next Hand
+                    </button>
                 ) : (
-                    <ActionButtons />
+                    <div className="w-full max-w-2xl">
+                        <ActionButtons />
+                    </div>
                 )}
             </div>
         </div>
