@@ -14,24 +14,21 @@ export function PokerTablePreview({ isHovered }: PokerTablePreviewProps) {
     useEffect(() => {
         if (!isHovered) return;
 
-        const cycle = () => {
-            setStreet('dealing');
+        // Reset to dealing immediately at start of round
+        setStreet('dealing');
 
-            const timers = [
-                setTimeout(() => setStreet('flop'), 3500),
-                setTimeout(() => setStreet('turn'), 5500),
-                setTimeout(() => setStreet('river'), 7500),
-                setTimeout(() => setStreet('showdown'), 9500),
-                setTimeout(() => setStreet('clearing'), 12500), // Start clearing cards
-                setTimeout(() => {
-                    setRoundCount(prev => prev + 1); // Reset for next round
-                }, 15000), // Wait for exit animations to finish
-            ];
+        const timers = [
+            setTimeout(() => setStreet('flop'), 3500),
+            setTimeout(() => setStreet('turn'), 5500),
+            setTimeout(() => setStreet('river'), 7500),
+            setTimeout(() => setStreet('showdown'), 9500),
+            setTimeout(() => setStreet('clearing'), 12500),
+            setTimeout(() => {
+                setRoundCount(prev => prev + 1); // Trigger re-run
+            }, 15000),
+        ];
 
-            return () => timers.forEach(clearTimeout);
-        };
-
-        return cycle();
+        return () => timers.forEach(clearTimeout);
     }, [isHovered, roundCount]);
 
     const players = [
@@ -53,6 +50,7 @@ export function PokerTablePreview({ isHovered }: PokerTablePreviewProps) {
         if (street === 'dealing') return false;
         if (street === 'flop') return cardStreet === 'flop';
         if (street === 'turn') return cardStreet === 'flop' || cardStreet === 'turn';
+        if (street === 'clearing') return false;
         return true;
     };
 
@@ -67,29 +65,29 @@ export function PokerTablePreview({ isHovered }: PokerTablePreviewProps) {
                 <div className="absolute inset-0 rounded-[min(19vw,224px)] bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-green-700/20 via-transparent to-black/40" />
 
                 {/* Current Pot / Status info */}
-                <div className="absolute top-[15%] left-1/2 -translate-x-1/2 text-center z-20">
+                <div className="absolute top-[12%] left-1/2 -translate-x-1/2 text-center z-20">
                     <div className="bg-black/60 backdrop-blur-md px-4 py-1.5 rounded-full border border-white/10 shadow-xl">
-                        <span className="text-yellow-400 font-black text-xs uppercase tracking-[0.2em]">
+                        <span className="text-yellow-400 font-black text-[10px] uppercase tracking-[0.2em]">
                             {street === 'dealing' ? 'Dealing...' : street === 'clearing' ? 'CLEANING UP...' : street.toUpperCase()}
                         </span>
                     </div>
                 </div>
 
                 {/* Pot */}
-                <div className="absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center z-20 transition-opacity duration-500" style={{ opacity: street === 'clearing' ? 0 : 1 }}>
+                <div className="absolute top-[35%] left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center z-20 transition-opacity duration-500" style={{ opacity: street === 'clearing' || street === 'dealing' ? 0 : 1 }}>
                     <div className="px-4 py-2 rounded-full bg-black/80 border border-white/10 shadow-[0_0_30px_rgba(52,211,153,0.3)]">
                         <span className="text-emerald-400 font-black text-xl md:text-2xl">$2,450</span>
                     </div>
                 </div>
 
                 {/* Community Cards */}
-                <div className="absolute top-[60%] left-1/2 -translate-x-1/2 -translate-y-1/2 flex gap-2 md:gap-4 h-24 items-center z-20">
+                <div className="absolute top-[55%] left-1/2 -translate-x-1/2 -translate-y-1/2 flex gap-2 md:gap-4 h-24 items-center z-20">
                     {communityCards.map((card, i) => (
                         <div
                             key={`${roundCount}-comm-${i}`}
                             className={cn(
                                 "w-12 h-18 md:w-16 md:h-24 bg-white rounded-lg md:rounded-xl border-2 border-zinc-200 shadow-2xl flex flex-col items-center justify-center transition-all duration-700 transform",
-                                shouldShow(card.street) && street !== 'clearing' ? `opacity-100 translate-y-0 rotate-0 scale-100` : "opacity-0 translate-y-10 rotate-12 scale-90",
+                                shouldShow(card.street) ? `opacity-100 translate-y-0 rotate-0 scale-100` : "opacity-0 translate-y-10 rotate-12 scale-90",
                                 street === 'clearing' && "animate-exit"
                             )}
                             style={{
@@ -119,14 +117,14 @@ export function PokerTablePreview({ isHovered }: PokerTablePreviewProps) {
                         <span className="text-[8px] md:text-[10px] font-black uppercase text-zinc-500 tracking-wider ">{p.name}</span>
 
                         {/* Player Hole Cards */}
-                        {isHovered && street !== 'dealing' && (
+                        {isHovered && (
                             <div className="absolute -top-12 md:-top-16 flex gap-1 z-50">
                                 {p.cards.map((val, ci) => (
                                     <div
                                         key={`${roundCount}-p${i}-c${ci}`}
                                         className={cn(
-                                            "w-10 h-14 md:w-12 md:h-18 bg-white rounded-lg border-2 border-zinc-200 shadow-xl flex flex-col items-center justify-center p-1",
-                                            street === 'clearing' ? "animate-exit" : "animate-deal"
+                                            "w-10 h-14 md:w-12 md:h-18 bg-white rounded-lg border-2 border-zinc-200 shadow-xl flex flex-col items-center justify-center p-1 opacity-0",
+                                            street !== 'clearing' ? "animate-deal" : "animate-exit"
                                         )}
                                         style={{
                                             '--deal-from-y': '-300px',

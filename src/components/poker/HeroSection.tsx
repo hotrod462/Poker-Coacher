@@ -28,26 +28,20 @@ export function HeroSection() {
             </div>
 
             {/* Content Container */}
-            <div className="relative z-10 flex flex-col items-center text-center px-6 max-w-7xl w-full">
+            <div className="relative z-10 flex flex-col items-center text-center px-6 max-w-5xl w-full">
 
                 {/* Headline Block with Localized Blur */}
-                <div className="relative group">
-                    {/* Precision Blur Filter behind text */}
-                    <div className="absolute -inset-x-12 -inset-y-6 -z-10 bg-white/5 dark:bg-black/10 backdrop-blur-[32px] rounded-[3rem] opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
-                    <div className="absolute -inset-x-8 -inset-y-4 -z-10 bg-white/20 dark:bg-black/30 backdrop-blur-xl rounded-[2rem] opacity-100" />
+                <div className="relative px-8 py-10 md:px-16 md:py-14 mb-8">
+                    {/* YT-Style Subtitle Blur Effect */}
+                    <div className="absolute inset-0 -z-10 bg-black/40 dark:bg-black/60 backdrop-blur-3xl rounded-[3rem] border border-white/10" />
 
-                    <h1 className="text-5xl sm:text-7xl md:text-[6.5rem] font-black tracking-tighter leading-[0.85] mb-8 uppercase italic animate-in fade-in slide-in-from-bottom-6 duration-1000">
-                        Your Personal<br />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-emerald-500 to-teal-500 whitespace-nowrap">AI Poker Teacher.</span>
+                    <h1 className="text-4xl sm:text-6xl md:text-[5.5rem] font-black tracking-tighter leading-[1] uppercase italic animate-in fade-in slide-in-from-bottom-6 duration-1000">
+                        <span className="text-white">Your Personal</span><br />
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-emerald-400 to-teal-400 whitespace-nowrap">AI Poker Teacher.</span>
                     </h1>
-                </div>
 
-                {/* Paragraph Block with Localized Blur */}
-                <div className="relative mt-4 mb-12 group">
-                    <div className="absolute -inset-x-10 -inset-y-4 -z-10 bg-white/10 dark:bg-black/20 backdrop-blur-lg rounded-2xl opacity-100" />
-
-                    <p className="text-lg md:text-2xl text-zinc-900 dark:text-zinc-300 max-w-3xl mx-auto font-medium leading-relaxed animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-100 px-4">
-                        Master the table without the stakes. Get real-time wisdom and deep strategy analysis from <span className="text-zinc-900 dark:text-white font-bold italic underline decoration-indigo-500/50 underline-offset-4">Nick the Groq.</span>
+                    <p className="mt-8 text-lg md:text-xl text-zinc-100 max-w-2xl mx-auto font-medium leading-relaxed animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-100">
+                        Master the table without the stakes. Get real-time wisdom and deep strategy analysis from <span className="text-white font-bold italic underline decoration-indigo-500/50 underline-offset-4">Nick the Groq.</span>
                     </p>
                 </div>
 
@@ -55,7 +49,7 @@ export function HeroSection() {
                     <button
                         onClick={() => setShowSignup(true)}
                         id="cta-start-playing"
-                        className="group px-10 py-5 bg-zinc-900 dark:bg-white text-white dark:text-black text-lg font-black rounded-2xl shadow-xl dark:shadow-[0_0_40px_rgba(255,255,255,0.1)] hover:shadow-2xl dark:hover:shadow-[0_0_60px_rgba(99,102,241,0.3)] transition-all transform hover:scale-105 flex items-center gap-3 uppercase tracking-tight"
+                        className="group px-10 py-5 bg-white text-black text-lg font-black rounded-2xl shadow-xl hover:shadow-2xl transition-all transform hover:scale-105 flex items-center gap-3 uppercase tracking-tight"
                     >
                         Play your first hand
                         <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
