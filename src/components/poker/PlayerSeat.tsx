@@ -7,6 +7,7 @@
 import React from 'react';
 import { Player } from '@/lib/poker/types';
 import { CardHand } from './PlayingCard';
+import { ChipStack } from './PokerChip';
 
 interface PlayerSeatProps {
     player: Player;
@@ -41,13 +42,10 @@ export function PlayerSeat({
             {/* Bet amount - positioned closer to center of table */}
             {currentBet > 0 && (
                 <div className={`
-                    absolute z-20 px-3 py-1 bg-black/60 border border-green-500/30 backdrop-blur-sm rounded-full text-white text-xs font-bold shadow-lg
-                    ${cardsOnTop ? '-top-12' : '-bottom-12'}
+                    absolute z-30
+                    ${cardsOnTop ? '-top-14' : '-bottom-14'}
                 `}>
-                    <div className="flex items-center gap-1">
-                        <div className="w-2 h-2 rounded-full bg-yellow-400 animate-pulse" />
-                        ${currentBet}
-                    </div>
+                    <ChipStack amount={currentBet} size="sm" />
                 </div>
             )}
 
@@ -141,6 +139,11 @@ export function PlayerSeat({
                         {isActive && (
                             <div className="absolute -inset-1 rounded-full border-2 border-yellow-400 border-t-transparent animate-spin" />
                         )}
+
+                        {/* Visual stack of chips representing total money */}
+                        <div className="absolute -left-5 top-1/2 -translate-y-1/2">
+                            <ChipStack amount={stack} size="xs" maxChips={4} showAmount={false} />
+                        </div>
                     </div>
 
                     {/* Info */}
@@ -149,7 +152,7 @@ export function PlayerSeat({
                             {name}
                         </span>
                         <div className="flex items-center gap-1">
-                            <div className="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.8)]" />
+                            <div className="w-1.5 h-1.5 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]" />
                             <span className="text-xs font-mono font-medium text-green-400">
                                 ${stack.toLocaleString()}
                             </span>

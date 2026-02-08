@@ -9,6 +9,8 @@ import { useGame } from '@/contexts/GameContext';
 import { PlayerSeat } from './PlayerSeat';
 import { CardHand } from './PlayingCard';
 import { ActionButtons } from './ActionButtons';
+import { ChipStack } from './PokerChip';
+import { AnimatedChips } from './AnimatedChips';
 
 export function PokerTable() {
     const { gameState, newHand, startGame } = useGame();
@@ -86,9 +88,12 @@ export function PokerTable() {
                     {/* Community Cards Area */}
                     <div className="relative z-10 flex flex-col items-center gap-4">
                         {/* Pot Display */}
-                        <div className="bg-black/40 backdrop-blur-md px-6 py-2 rounded-full border border-white/5 flex flex-col items-center mb-4">
-                            <span className="text-xs text-green-400 uppercase tracking-wider font-bold">Total Pot</span>
-                            <span className="text-2xl text-white font-bold">${pot}</span>
+                        <div className="flex flex-col items-center mb-4">
+                            <ChipStack amount={pot} size="md" maxChips={8} className="mb-2" />
+                            <div className="bg-black/40 backdrop-blur-md px-6 py-1 rounded-full border border-white/5 flex flex-col items-center">
+                                <span className="text-[10px] text-green-400 uppercase tracking-widest font-bold">Total Pot</span>
+                                <span className="text-xl text-white font-bold">${pot}</span>
+                            </div>
                         </div>
 
                         {/* Cards */}
@@ -135,6 +140,8 @@ export function PokerTable() {
                             </div>
                         );
                     })}
+
+                    <AnimatedChips />
                 </div>
             </div>
 
