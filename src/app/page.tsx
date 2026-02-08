@@ -2,6 +2,7 @@ import Link from "next/link";
 import { AuthButton } from "@/components/auth-button";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 import { Suspense } from "react";
+import { HeroSection } from "@/components/poker/HeroSection";
 import {
   BrainCircuit,
   Trophy,
@@ -42,42 +43,16 @@ export default function Home() {
             </div>
             <div className="h-6 w-px bg-zinc-200 dark:bg-white/10 hidden md:block" />
             <div className="flex items-center gap-4">
-              <Suspense>
-                <AuthButton />
-              </Suspense>
               <ThemeSwitcher />
             </div>
           </div>
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="relative w-full max-w-7xl px-6 pt-32 pb-40 flex flex-col items-center text-center z-10">
-        <h1 className="text-6xl md:text-8xl font-black tracking-tight leading-[0.9] mb-8 uppercase italic animate-in fade-in slide-in-from-bottom-6 duration-1000">
-          Your Personal<br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-emerald-600 to-teal-600 dark:from-indigo-400 dark:via-emerald-400 dark:to-teal-400">AI Poker Teacher.</span>
-        </h1>
+      {/* Hero Section Container (Client Side for Interactivity) */}
+      <HeroSection />
 
-        <p className="text-xl text-zinc-600 dark:text-zinc-400 max-w-2xl mx-auto mb-12 font-medium leading-relaxed animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-100">
-          Master the table without the stakes. Get real-time wisdom and deep strategy analysis from <span className="text-zinc-900 dark:text-white font-bold italic underline decoration-indigo-500/50 underline-offset-4">Nick the Groq.</span>
-        </p>
 
-        <div className="flex flex-col sm:flex-row gap-4 animate-in fade-in slide-in-from-bottom-10 duration-1000 delay-200">
-          <Link
-            href="/game"
-            id="cta-start-playing"
-            className="group px-10 py-5 bg-zinc-900 dark:bg-white text-white dark:text-black text-lg font-black rounded-2xl shadow-xl dark:shadow-[0_0_40px_rgba(255,255,255,0.1)] hover:shadow-2xl dark:hover:shadow-[0_0_60px_rgba(99,102,241,0.3)] transition-all transform hover:scale-105 flex items-center gap-3 uppercase tracking-tight"
-          >
-            Enter the Pit
-            <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </Link>
-          <button
-            className="px-10 py-5 bg-zinc-100 dark:bg-white/5 border border-zinc-200 dark:border-white/10 hover:bg-zinc-200 dark:hover:bg-white/10 text-zinc-900 dark:text-white text-lg font-black rounded-2xl transition-all uppercase tracking-tight"
-          >
-            Watch Demo
-          </button>
-        </div>
-      </section>
 
       {/* Features Grid */}
       <section id="features" className="w-full max-w-7xl px-6 py-32 z-10">
@@ -170,18 +145,18 @@ export default function Home() {
           <p className="text-zinc-500 font-medium">Four distinct personalities. Four ways to lose your stack.</p>
         </div>
 
-        <div className="flex gap-6 px-6 overflow-x-auto pb-12 scrollbar-hide">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto px-6">
           {[
             { name: "Tight Tim", style: "The Sentinel", mood: "Passive & careful", icon: "🧔", color: "blue" },
             { name: "Aggro Andy", style: "The Hammer", mood: "Tight & aggressive", icon: "😤", color: "red" },
             { name: "Loose Lucy", style: "The Gambler", mood: "Plays many hands", icon: "💃", color: "amber" },
             { name: "Wild Wes", style: "The Chaos", mood: "Aggressive & unpredictable", icon: "🤠", color: "purple" }
           ].map((bot) => (
-            <div key={bot.name} className="flex-shrink-0 w-80 p-8 bg-white dark:bg-zinc-900/50 border border-zinc-200 dark:border-white/5 rounded-[2.5rem] hover:translate-y-[-8px] transition-all duration-300 shadow-sm hover:shadow-xl dark:shadow-none">
-              <div className="text-5xl mb-6">{bot.icon}</div>
+            <div key={bot.name} className="p-10 bg-white dark:bg-zinc-900/50 border border-zinc-200 dark:border-white/5 rounded-[3rem] hover:translate-y-[-8px] transition-all duration-300 shadow-sm hover:shadow-xl dark:shadow-none group">
+              <div className="text-6xl mb-8 group-hover:scale-110 transition-transform duration-300">{bot.icon}</div>
               <div className="text-xs font-black text-zinc-400 dark:text-zinc-600 uppercase tracking-[0.2em] mb-2">{bot.style}</div>
-              <h3 className="text-2xl font-black text-zinc-900 dark:text-white uppercase italic mb-4 tracking-tight">{bot.name}</h3>
-              <p className="text-zinc-500 text-sm font-medium leading-relaxed">{bot.mood}</p>
+              <h3 className="text-3xl font-black text-zinc-900 dark:text-white uppercase italic mb-4 tracking-tight">{bot.name}</h3>
+              <p className="text-zinc-500 text-lg font-medium leading-relaxed">{bot.mood}</p>
             </div>
           ))}
         </div>

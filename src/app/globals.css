@@ -83,7 +83,23 @@
   }
 
   .animate-deal {
-    animation: deal-card 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation: deal-card 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  @keyframes exit-card {
+    0% {
+      opacity: 1;
+      transform: translate(0, 0) scale(1) rotate(0deg);
+    }
+
+    100% {
+      opacity: 0;
+      transform: translate(var(--exit-to-x, 0), var(--exit-to-y, 400px)) scale(0.3) rotate(-20deg);
+    }
+  }
+
+  .animate-exit {
+    animation: exit-card 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   }
 
   .scrollbar-hide::-webkit-scrollbar {
