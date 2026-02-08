@@ -15,13 +15,15 @@ export function CoachPanel() {
     const [autoAnalyze, setAutoAnalyze] = useState(true);
     const lastAnalyzedRef = useRef<string>('');
 
-    const { messages, append, isLoading, setMessages } = (useChat as any)({
-        api: '/api/coach',
+    const { messages, sendMessage, status, setMessages } = (useChat as any)({
+        api: '/api/chat',
         body: {
             gameState,
             userPlayer,
         },
     });
+
+    const isLoading = status === 'streaming';
 
     // Auto-scroll to bottom on new messages
     useEffect(() => {
@@ -50,24 +52,18 @@ export function CoachPanel() {
 
             // Clear previous messages and start new analysis
             setMessages([]);
-            append({
-                role: 'user',
-                content: 'Analyze the current situation',
-            }, {
-                body: { gameState, userPlayer },
+            sendMessage({
+                text: 'Analyze the current situation',
             });
         }
-    }, [gameState, isUsersTurn, autoAnalyze, userPlayer, isLoading, append, setMessages]);
+    }, [gameState, isUsersTurn, autoAnalyze, userPlayer, isLoading, sendMessage, setMessages]);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (!userQuestion.trim() || isLoading) return;
 
-        append({
-            role: 'user',
-            content: userQuestion,
-        }, {
-            body: { gameState, userPlayer, question: userQuestion },
+        sendMessage({
+            text: userQuestion,
         });
         setUserQuestion('');
     };
@@ -120,15 +116,16 @@ export function CoachPanel() {
                             : 'bg-gray-800 border border-gray-700'
                             }`}
                     >
-                        {message.role === 'assistant' ? (
-                            <div className="prose prose-invert prose-sm max-w-none">
-                                <div className="text-gray-200 whitespace-pre-wrap text-sm leading-relaxed">
-                                    {message.content}
-                                </div>
+                        <div className="prose prose-invert prose-sm max-w-none">
+                            <div className={`${message.role === 'assistant' ? 'text-gray-200' : 'text-blue-300'} whitespace-pre-wrap text-sm leading-relaxed`}>
+                                {(message.parts || []).map((part: any, i: number) => {
+                                    if (part.type === 'text') return <span key={i}>{part.text}</span>;
+                                    if (part.type === 'reasoning') return <div key={i} className="text-gray-500 italic mb-2 border-b border-gray-800 pb-2">{part.reasoning || part.text}</div>;
+                                    return <span key={i}>{part.text || ''}</span>;
+                                })}
+                                {!message.parts && message.content}
                             </div>
-                        ) : (
-                            <p className="text-blue-300 text-sm">{message.content}</p>
-                        )}
+                        </div>
                     </div>
                 ))}
 

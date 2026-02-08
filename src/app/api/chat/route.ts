@@ -3,7 +3,7 @@
  */
 
 import { createGroq } from '@ai-sdk/groq';
-import { streamText } from 'ai';
+import { streamText, convertToModelMessages } from 'ai';
 import { GameState, Player } from '@/lib/poker/types';
 
 const groq = createGroq({ apiKey: process.env.GROQ_API_KEY });
@@ -29,7 +29,7 @@ POKER CONCEPTS TO EXPLAIN (when relevant):
 Always end with a clear RECOMMENDATION: [Fold/Check/Call/Raise] + brief reason.`;
 
 function formatGameContext(gameState: GameState, userPlayer?: Player): string {
-    const { street, pot, currentBet, communityCards, players, activePlayerIndex } = gameState;
+    const { street, pot, currentBet, communityCards, players } = gameState;
 
     const streetNames: Record<string, string> = {
         preflop: 'Pre-Flop (before any community cards)',
@@ -95,31 +95,17 @@ function getPositionName(seatIndex: number, dealerIndex: number, numPlayers: num
 
 export async function POST(req: Request) {
     try {
-        const { gameState, userPlayer, question } = await req.json() as {
-            gameState: GameState;
-            userPlayer?: Player;
-            question?: string;
-        };
+        const { messages, gameState, userPlayer } = await req.json();
 
         const gameContext = formatGameContext(gameState, userPlayer);
 
-        let userMessage = gameContext;
-        if (question) {
-            userMessage += `\n\n**Player's Question**: ${question}`;
-        } else {
-            userMessage += '\n\n**Please analyze this situation and recommend the best action.**';
-        }
-
         const result = streamText({
             model: groq('moonshotai/kimi-k2-instruct-0905'),
-            system: POKER_COACH_SYSTEM_PROMPT,
-            messages: [
-                { role: 'user', content: userMessage }
-            ],
-
+            system: `${POKER_COACH_SYSTEM_PROMPT}\n\nCURRENT GAME STATE:\n${gameContext}\n\nPlease analyze this situation based on the player's questions or current state. Always provide a clear recommendation.`,
+            messages: await convertToModelMessages(messages),
         });
 
-        return result.toTextStreamResponse();
+        return result.toUIMessageStreamResponse();
     } catch (error) {
         console.error('Coach API error:', error);
         return new Response(
@@ -128,3 +114,4 @@ export async function POST(req: Request) {
         );
     }
 }
+
