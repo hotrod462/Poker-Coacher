@@ -21,7 +21,8 @@ import {
     HandIcon,
     Zap,
     BrainCircuit,
-    Layers
+    Layers,
+    BookOpen
 } from 'lucide-react';
 import {
     Accordion,
@@ -44,6 +45,26 @@ const HAND_RANKINGS = [
     { rank: "Two Pair", cards: "Two Different Pairs", desc: "Two pairs of ranks + one kicker.", exampleCards: ["Jc", "Jh", "8s", "8d", "4h"] },
     { rank: "One Pair", cards: "Two Cards of Same Rank", desc: "Two matched ranks + three kickers.", exampleCards: ["Tc", "Th", "Ad", "Qd", "3h"] },
     { rank: "High Card", cards: "Highest Rank Wins", desc: "When you have none of the above.", exampleCards: ["As", "Kd", "8h", "5s", "2c"] },
+];
+
+const POKER_TERMS = [
+    { term: "The Hand", definition: "A single round of poker. Players use their private cards and the shared community cards to form the best 5-card hand. The player with the strongest hand at the end wins the pot." },
+    { term: "Hole Cards", definition: "The two private cards dealt face-down to you. Only you can see and use these to form your hand." },
+    { term: "Community Cards", definition: "The five cards dealt face-up in the middle of the table. Everyone uses these shared cards to make their best hand." },
+    { term: "Fold", definition: "Giving up your cards and any chips you've already put in the pot. Sometimes it's the smartest move." },
+    { term: "Check", definition: "Passing the action to the next player without betting anything. You can only do this if no one else has bet." },
+    { term: "Call", definition: "Matching the current bet or raise to stay in the hand." },
+    { term: "Raise", definition: "Increasing the current bet size, forcing others to pay more or fold." },
+    { term: "All-In", definition: "Pushing all your remaining chips into the pot. It's time to pray." },
+    { term: "Pre-Flop", definition: "Everything that happens before the first three community cards (the Flop) are dealt." },
+    { term: "Flop", definition: "The first three community cards dealt simultaneously." },
+    { term: "Turn", definition: "The fourth community card dealt. Also known as 'Fourth Street'." },
+    { term: "River", definition: "The fifth and final community card dealt face-up on the board." },
+    { term: "Blinds", definition: "Forced bets (Small and Big) made by the two players to the left of the dealer before cards are seen." },
+    { term: "Button", definition: "The dealer position. This is the best seat because you act last in most betting rounds." },
+    { term: "Pot Odds", definition: "The relationship between the size of the pot and the size of the bet you need to call." },
+    { term: "The Nuts", definition: "The best possible hand you can have at a specific moment. If you've got 'em, you can't lose." },
+    { term: "Kicker", definition: "A card that doesn't make a pair or better but helps determine the winner in a tie." },
 ];
 
 export function CoachPanel() {
@@ -147,9 +168,29 @@ export function CoachPanel() {
             {/* Scrollable Content Area */}
             <ScrollArea className="flex-1 min-h-0">
                 <div className="flex flex-col min-h-full">
-                    {/* Hand Rankings - Collapsed Tab */}
+                    {/* Term Dictionary - First */}
                     <div className="px-4 py-1 border-b border-white/5 bg-[#0f0f17]">
                         <Accordion type="single" collapsible className="w-full">
+                            <AccordionItem value="poker-dictionary" className="border-none">
+                                <AccordionTrigger className="py-3 hover:no-underline group">
+                                    <div className="flex items-center gap-2.5 text-zinc-500 group-data-[state=open]:text-indigo-400 transition-all duration-300">
+                                        <BookOpen className="w-4 h-4" />
+                                        <span className="text-sm font-black uppercase tracking-[0.1em]">Term Dictionary</span>
+                                    </div>
+                                </AccordionTrigger>
+                                <AccordionContent className="pb-4">
+                                    <div className="grid grid-cols-1 gap-2 mt-1">
+                                        {POKER_TERMS.map((item) => (
+                                            <div key={item.term} className="group/item p-3 rounded-xl bg-white/[0.02] border border-white/[0.05] hover:bg-white/[0.05] hover:border-indigo-500/20 transition-all duration-300">
+                                                <h4 className="text-sm font-black text-indigo-400 uppercase tracking-wider mb-1">{item.term}</h4>
+                                                <p className="text-sm text-zinc-400 leading-relaxed font-medium">{item.definition}</p>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </AccordionContent>
+                            </AccordionItem>
+
+                            {/* Hand Rankings - Second */}
                             <AccordionItem value="hand-rankings" className="border-none">
                                 <AccordionTrigger className="py-3 hover:no-underline group">
                                     <div className="flex items-center gap-2.5 text-zinc-500 group-data-[state=open]:text-indigo-400 transition-all duration-300">
