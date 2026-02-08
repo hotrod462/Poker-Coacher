@@ -22,6 +22,7 @@
     "next": "latest",
     "next-themes": "^0.4.6",
     "posthog-js": "^1.342.1",
+    "radix-ui": "^1.4.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-resizable-panels": "^4.6.2",
