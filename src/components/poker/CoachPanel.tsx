@@ -121,7 +121,7 @@ export function CoachPanel() {
                         </div>
                     </div>
                     <div>
-                        <h2 className="text-lg font-black text-white tracking-tight uppercase">Coach Lou</h2>
+                        <h2 className="text-lg font-black text-white tracking-tight uppercase">Nick the Groq</h2>
                         <div className="flex items-center gap-1.5">
                             <div className={cn(
                                 "w-2 h-2 rounded-full",
